@@ -1,6 +1,6 @@
 package com.rlti.webflux.service;
 
-import com.rlti.webflux.controller.model.request.UserRequest;
+import com.rlti.webflux.model.request.UserRequest;
 import com.rlti.webflux.entity.User;
 import com.rlti.webflux.mapper.UserMapper;
 import com.rlti.webflux.repository.UserRepository;

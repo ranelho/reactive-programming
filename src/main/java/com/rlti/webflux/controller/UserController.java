@@ -1,7 +1,7 @@
 package com.rlti.webflux.controller;
 
-import com.rlti.webflux.controller.model.request.UserRequest;
-import com.rlti.webflux.controller.model.response.UserResponse;
+import com.rlti.webflux.model.request.UserRequest;
+import com.rlti.webflux.model.response.UserResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;

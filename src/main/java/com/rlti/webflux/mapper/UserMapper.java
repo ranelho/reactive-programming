@@ -1,7 +1,7 @@
 package com.rlti.webflux.mapper;
 
-import com.rlti.webflux.controller.model.request.UserRequest;
-import com.rlti.webflux.controller.model.response.UserResponse;
+import com.rlti.webflux.model.request.UserRequest;
+import com.rlti.webflux.model.response.UserResponse;
 import com.rlti.webflux.entity.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

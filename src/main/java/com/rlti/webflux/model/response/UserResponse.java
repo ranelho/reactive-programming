@@ -1,4 +1,4 @@
-package com.rlti.webflux.controller.model.response;
+package com.rlti.webflux.model.response;
 
 public record UserResponse(
         String id,

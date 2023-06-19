@@ -1,4 +1,4 @@
-package com.rlti.webflux.controller.model.request;
+package com.rlti.webflux.model.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

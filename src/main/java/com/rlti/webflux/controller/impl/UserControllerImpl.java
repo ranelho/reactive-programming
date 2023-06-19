@@ -1,8 +1,8 @@
 package com.rlti.webflux.controller.impl;
 
 import com.rlti.webflux.controller.UserController;
-import com.rlti.webflux.controller.model.request.UserRequest;
-import com.rlti.webflux.controller.model.response.UserResponse;
+import com.rlti.webflux.model.request.UserRequest;
+import com.rlti.webflux.model.response.UserResponse;
 import com.rlti.webflux.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
