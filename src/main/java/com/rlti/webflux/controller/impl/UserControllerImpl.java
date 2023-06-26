@@ -1,6 +1,7 @@
 package com.rlti.webflux.controller.impl;
 
 import com.rlti.webflux.controller.UserController;
+import com.rlti.webflux.mapper.UserMapper;
 import com.rlti.webflux.model.request.UserRequest;
 import com.rlti.webflux.model.response.UserResponse;
 import com.rlti.webflux.service.UserService;
@@ -18,6 +19,7 @@ import reactor.core.publisher.Mono;
 public class UserControllerImpl implements UserController {
 
     private final UserService service;
+    private final UserMapper mapper;
 
     @Override
     public ResponseEntity<Mono<Void>> save(final UserRequest request) {
@@ -26,8 +28,10 @@ public class UserControllerImpl implements UserController {
     }
 
     @Override
-    public ResponseEntity<Mono<UserResponse>> find(String id) {
-        return null;
+    public ResponseEntity<Mono<UserResponse>> findById(String id) {
+        return ResponseEntity.ok().body(
+                service.findById(id).map(mapper::toResponse)
+        );
     }
 
     @Override
