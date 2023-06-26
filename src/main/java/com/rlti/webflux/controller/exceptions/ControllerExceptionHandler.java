@@ -1,5 +1,6 @@
 package com.rlti.webflux.controller.exceptions;
 
+import com.rlti.webflux.service.exception.ObjectNotFoundException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.server.reactive.ServerHttpRequest;
@@ -11,6 +12,7 @@ import reactor.core.publisher.Mono;
 
 import static java.time.LocalDateTime.now;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @ControllerAdvice
 public class ControllerExceptionHandler {
@@ -47,7 +49,7 @@ public class ControllerExceptionHandler {
         return ResponseEntity.status(BAD_REQUEST).body(Mono.just(error));
     }
 
-    /*@ExceptionHandler(ObjectNotFoundException.class)
+    @ExceptionHandler(ObjectNotFoundException.class)
     ResponseEntity<Mono<StandardError>> objectNotFoundException(
             ObjectNotFoundException ex, ServerHttpRequest request
     ) {
@@ -61,7 +63,7 @@ public class ControllerExceptionHandler {
                                 .path(request.getPath().toString())
                                 .build()
                 ));
-    }*/
+    }
 
 
     private String verifyDupKey(String message) {
