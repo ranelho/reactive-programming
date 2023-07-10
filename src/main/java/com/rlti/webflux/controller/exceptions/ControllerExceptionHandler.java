@@ -41,11 +41,9 @@ public class ControllerExceptionHandler {
                 now(), request.getPath().toString(),
                 BAD_REQUEST.value(), "Validation error", "Error on validation attributes"
         );
-
         for(FieldError x : ex.getBindingResult().getFieldErrors()) {
             error.addError(x.getField(), x.getDefaultMessage());
         }
-
         return ResponseEntity.status(BAD_REQUEST).body(Mono.just(error));
     }
 
@@ -64,7 +62,6 @@ public class ControllerExceptionHandler {
                                 .build()
                 ));
     }
-
 
     private String verifyDupKey(String message) {
         if (message.contains("email dup key")) {
