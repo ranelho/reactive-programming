@@ -112,5 +112,16 @@ class UserServiceTest {
         Mockito.verify(repository, times(1)).findAndRemove(anyString());
     }
 
+    @Test
+    void testHandleNotFound() {
+        when(repository.findById(anyString())).thenReturn(Mono.empty());
+        try {
+            service.findById("123").block();
+        } catch (Exception ex) {
+            assertEquals(ObjectNotFoundException.class, ex.getClass());
+            assertEquals(format("Object not found. Id: %s, Type: %s", "123", User.class.getSimpleName()), ex.getMessage());
+        }
+    }
+
 
 }
