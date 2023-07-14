@@ -15,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import reactor.core.publisher.Flux;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -127,6 +128,32 @@ class UserControllerImplTest {
 
         verify(service).findAll();
         verify(mapper).toResponse(any(User.class));
+    }
+
+    @Test
+    @DisplayName("Test update endpoint with success")
+    void testUpdateWithSuccess() {
+        final var request = new UserRequest(NAME, EMAIL, PASSWORD);
+        final var userResponse = new UserResponse(ID, NAME, EMAIL, PASSWORD);
+
+        when(service.update(anyString(), any(UserRequest.class)))
+                .thenReturn(just(User.builder().build()));
+        when(mapper.toResponse(any(User.class))).thenReturn(userResponse);
+
+        webTestClient.patch().uri(BASE_URI + "/" + ID)
+                .contentType(APPLICATION_JSON)
+                .body(fromValue(request))
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody()
+                .jsonPath("$.id").isEqualTo(ID)
+                .jsonPath("$.name").isEqualTo(NAME)
+                .jsonPath("$.email").isEqualTo(EMAIL)
+                .jsonPath("$.password").isEqualTo(PASSWORD);
+
+        verify(service).update(anyString(), any(UserRequest.class));
+        verify(mapper).toResponse(any(User.class));
+
     }
 
 }
