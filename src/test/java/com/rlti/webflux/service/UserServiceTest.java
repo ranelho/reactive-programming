@@ -50,5 +50,19 @@ class UserServiceTest {
         Mockito.verify(repository, times(1)).save(any(User.class));
     }
 
+    @Test
+    void testFindById() {
+        when(repository.findById(anyString())).thenReturn(Mono.just(User.builder().build()));
+
+        Mono<User> result = service.findById("123");
+
+        StepVerifier.create(result)
+                .expectNextMatches(user -> user.getClass() == User.class)
+                .expectComplete()
+                .verify();
+
+        Mockito.verify(repository, times(1)).findById(anyString());
+    }
+
 
 }
