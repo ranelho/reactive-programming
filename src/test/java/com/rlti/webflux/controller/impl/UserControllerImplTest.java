@@ -106,4 +106,27 @@ class UserControllerImplTest {
         verify(service).findById(anyString());
         verify(mapper).toResponse(any(User.class));
     }
+
+    @Test
+    @DisplayName("Test find all endpoint with success")
+    void testFindAllWithSuccess() {
+        final var userResponse = new UserResponse(ID, NAME, EMAIL, PASSWORD);
+
+        when(service.findAll()).thenReturn(Flux.just(User.builder().build()));
+        when(mapper.toResponse(any(User.class))).thenReturn(userResponse);
+
+        webTestClient.get().uri(BASE_URI)
+                .accept(APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody()
+                .jsonPath("$.[0].id").isEqualTo(ID)
+                .jsonPath("$.[0].name").isEqualTo(NAME)
+                .jsonPath("$.[0].email").isEqualTo(EMAIL)
+                .jsonPath("$.[0].password").isEqualTo(PASSWORD);
+
+        verify(service).findAll();
+        verify(mapper).toResponse(any(User.class));
+    }
+
 }
