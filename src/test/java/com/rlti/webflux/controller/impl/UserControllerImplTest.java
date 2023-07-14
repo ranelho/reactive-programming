@@ -4,6 +4,7 @@ import com.mongodb.reactivestreams.client.MongoClient;
 import com.rlti.webflux.entity.User;
 import com.rlti.webflux.mapper.UserMapper;
 import com.rlti.webflux.model.request.UserRequest;
+import com.rlti.webflux.model.response.UserResponse;
 import com.rlti.webflux.service.UserService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,6 +17,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
@@ -81,5 +83,27 @@ class UserControllerImplTest {
                 .jsonPath("$.errors[0].fieldName").isEqualTo("name")
                 .jsonPath("$.errors[0].message").isEqualTo("field cannot have blank spaces at the beginning or at end");
 
+    }
+
+    @Test
+    @DisplayName("Test find by id endpoint with success")
+    void testFindByIdWithSuccess() {
+        final var userResponse = new UserResponse(ID, NAME, EMAIL, PASSWORD);
+
+        when(service.findById(anyString())).thenReturn(just(User.builder().build()));
+        when(mapper.toResponse(any(User.class))).thenReturn(userResponse);
+
+        webTestClient.get().uri(BASE_URI + "/" + ID)
+                .accept(APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody()
+                .jsonPath("$.id").isEqualTo(ID)
+                .jsonPath("$.name").isEqualTo(NAME)
+                .jsonPath("$.email").isEqualTo(EMAIL)
+                .jsonPath("$.password").isEqualTo(PASSWORD);
+
+        verify(service).findById(anyString());
+        verify(mapper).toResponse(any(User.class));
     }
 }
