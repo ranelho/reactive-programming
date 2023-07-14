@@ -64,5 +64,19 @@ class UserServiceTest {
         Mockito.verify(repository, times(1)).findById(anyString());
     }
 
+    @Test
+    void testFindAll() {
+        when(repository.findAll()).thenReturn(Flux.just(User.builder().build()));
+
+        Flux<User> result = service.findAll();
+
+        StepVerifier.create(result)
+                .expectNextMatches(user -> user.getClass() == User.class)
+                .expectComplete()
+                .verify();
+
+        Mockito.verify(repository, times(1)).findAll();
+    }
+
 
 }
