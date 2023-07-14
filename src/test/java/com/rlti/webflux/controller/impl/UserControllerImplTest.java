@@ -49,7 +49,6 @@ class UserControllerImplTest {
     @MockBean
     private MongoClient mongoClient;
 
-
     @Test
     @DisplayName("Test endpoint save with success")
     void testSaveWithSuccess() {
@@ -83,7 +82,6 @@ class UserControllerImplTest {
                 .jsonPath("$.message").isEqualTo("Error on validation attributes")
                 .jsonPath("$.errors[0].fieldName").isEqualTo("name")
                 .jsonPath("$.errors[0].message").isEqualTo("field cannot have blank spaces at the beginning or at end");
-
     }
 
     @Test
@@ -153,7 +151,18 @@ class UserControllerImplTest {
 
         verify(service).update(anyString(), any(UserRequest.class));
         verify(mapper).toResponse(any(User.class));
+    }
 
+    @Test
+    @DisplayName("Test delete endpoint with success")
+    void testDeleteWithSuccess() {
+        when(service.delete(anyString())).thenReturn(just(User.builder().build()));
+
+        webTestClient.delete().uri(BASE_URI + "/" + ID)
+                .exchange()
+                .expectStatus().isOk();
+
+        verify(service).delete(anyString());
     }
 
 }
